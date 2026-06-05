@@ -1,0 +1,23 @@
+﻿@page
+@model Mahla_Blog.Web.Pages.Auth.LoginModel
+@{
+    Layout = "Shared/_AuthLayout";
+    ViewData["Title"] = "ورود به سایت";
+}
+<form method="post">
+    <h1>@ViewData["Title"]</h1>
+    <div>
+        <input type="text" asp-for="UserName" placeholder="نام کاربری" />
+        <span asp-validation-for="UserName"></span>
+    </div>
+    <div>
+        <input type="password" asp-for="Password" placeholder="کلمه عبور"/>
+        <span asp-validation-for="Password"></span>
+
+    </div>
+    <div>
+        <input type="submit" value="ورود" />
+        <a href="#">فراموشی کلمه عبور</a>
+        <a asp-page="Register">ثبت نام</a>
+    </div>
+</form>

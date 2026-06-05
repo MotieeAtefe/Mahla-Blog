@@ -1,0 +1,24 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>@ViewData["title"]</title>
+@*     <link rel="stylesheet" type="text/css" href="~/authLayout/css/main.css" />
+ *@    <link rel="stylesheet" href="/authLayout/css/main.css" asp-append-version="true" />
+
+</head>
+
+<body>
+    <div class="container">
+        <section id="content">
+          @RenderBody();
+        </section>
+        <script src="/js/jquery.min.js"></script>
+        <partial name="_ValidationScriptsPartial" />
+        @await RenderSectionAsync("Scripts",false);
+    </div>
+</body>
+
+</html>
