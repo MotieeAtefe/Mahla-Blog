@@ -7,6 +7,7 @@
             return value.Trim().ToLower()
                 .Replace("!", "")
                 .Replace("#", "")
+                .Replace("@", "")
                 .Replace("$", "")
                 .Replace("%", "")
                 .Replace("^", "")
@@ -14,6 +15,9 @@
                 .Replace("*", "")
                 .Replace("(", "")
                 .Replace(")", "")
+                .Replace("<", "")
+                .Replace(">", "")
+                .Replace(" ", "-")
                 .Replace("/", "")
                 .Replace(@"\", "");
         }

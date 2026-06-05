@@ -19,6 +19,14 @@ namespace Mahla_Blog.CoreLayer.Services.Categories
             _context = context;
         }
 
+        public bool IsExists(string slug)
+        {
+            var result = _context.Categories.Any(s => s.Slug == slug);
+            if (!result)
+                return true;
+            return false;
+        }
+
         OperationResult ICategoryService.CreateCategory(CreateCategoryDto command)
         {
             var category = new Category()
@@ -43,7 +51,7 @@ namespace Mahla_Blog.CoreLayer.Services.Categories
             if (Categury == null)
                 return OperationResult.NotFound();
             Categury.Id = command.Id;
-            Categury.Slug = command.Slug;
+            Categury.Slug = command.Slug.ToSlug();
             Categury.Title = command.Title;
             Categury.MetaDescription = command.MetaDescription;
             Categury.MetaTag = command.MetaTag;

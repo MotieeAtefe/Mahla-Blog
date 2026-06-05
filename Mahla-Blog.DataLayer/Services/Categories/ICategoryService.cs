@@ -10,7 +10,8 @@ namespace Mahla_Blog.CoreLayer.Services.Categories
         OperationResult EditCategory(EditCategoryDto command);
         List<CategoriesDto> GetAllCategories();
         CategoriesDto GetCategoryBy(int id);
-        CategoriesDto GetCategoryBy(string slug );
+        CategoriesDto GetCategoryBy(string slug);
+        bool IsExists(string slug);
 
     }
 }
