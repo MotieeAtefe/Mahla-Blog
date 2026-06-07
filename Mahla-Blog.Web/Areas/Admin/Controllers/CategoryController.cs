@@ -18,16 +18,25 @@ namespace Mahla_Blog.Web.Areas.Admin.Controllers
         {
             return View(_categoryService.GetAllCategories());
         }
-        public IActionResult Add()
+        [Route("/admin/category/add/{parentId?}")]
+        public IActionResult Add(int? parentId)
         {
             return View();
         }
-        [HttpPost]
-        public IActionResult Add(CreateCategoryViewModel viewModel)
+        [HttpPost("/admin/category/add/{parentId?}")]
+        public IActionResult Add(int? parentId, CreateCategoryViewModel viewModel)
         {
+            viewModel.ParentId = parentId;
             var result = _categoryService.CreateCategory(viewModel.MapperCategury());
+
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError(nameof(viewModel.Slug), result.Message);
+                return View();
+            }
+
             return RedirectToAction("Index");
-           
+
         }
         public IActionResult Edit(int id)
         {
@@ -44,12 +53,12 @@ namespace Mahla_Blog.Web.Areas.Admin.Controllers
                 MetaTag = result.MetaTag,
                 MetaDescription = result.MetaDescription
             };
-            return View(model); 
+            return View(model);
         }
         [HttpPost]
         public IActionResult Edit(int id, EditCategoryViewModel EditModel)
         {
-        
+
             var result = _categoryService.EditCategory(new EditCategoryDto()
             {
                 Title = EditModel.Title,
@@ -57,7 +66,7 @@ namespace Mahla_Blog.Web.Areas.Admin.Controllers
                 MetaTag = EditModel.MetaTag,
                 MetaDescription = EditModel.MetaDescription,
                 Id = id
-                
+
             });
 
             if (result.Status != OperationResultStatus.Success)

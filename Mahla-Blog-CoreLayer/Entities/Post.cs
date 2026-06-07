@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 
 namespace Mahla_Blog_DataLayer.Entities
 {
-    public class Post :BaseEntities
+    public class Post : BaseEntities
     {
 
         public int UserId { get; set; }
@@ -23,7 +22,7 @@ namespace Mahla_Blog_DataLayer.Entities
 
         public int Visit { get; set; }
 
-
+        public string ImageName { get; set; }
 
         #region Realation
         [ForeignKey("UserId")]

@@ -3,10 +3,8 @@ using Mahla_Blog.CoreLayer.Mappers;
 using Mahla_Blog.CoreLayer.Utilities;
 using Mahla_Blog_DataLayer.Context;
 using Mahla_Blog_DataLayer.Entities;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.NetworkInformation;
 
 
 namespace Mahla_Blog.CoreLayer.Services.Categories
@@ -21,14 +19,13 @@ namespace Mahla_Blog.CoreLayer.Services.Categories
 
         public bool IsExists(string slug)
         {
-            var result = _context.Categories.Any(s => s.Slug == slug);
-            if (!result)
-                return true;
-            return false;
+            return _context.Categories.Any(s => s.Slug == slug);
         }
 
         OperationResult ICategoryService.CreateCategory(CreateCategoryDto command)
         {
+            if (IsExists(command.Slug))
+                return OperationResult.Error("Slug is Exists!");
             var category = new Category()
             {
                 Title = command.Title,
@@ -50,6 +47,11 @@ namespace Mahla_Blog.CoreLayer.Services.Categories
             var Categury = _context.Categories.FirstOrDefault(c => c.Id == command.Id);
             if (Categury == null)
                 return OperationResult.NotFound();
+
+            if (Categury.Slug.ToSlug() == Categury.Slug)
+                if (IsExists(command.Slug))
+                    return OperationResult.Error("Slug is Exists!");
+
             Categury.Id = command.Id;
             Categury.Slug = command.Slug.ToSlug();
             Categury.Title = command.Title;
