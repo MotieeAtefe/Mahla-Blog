@@ -64,7 +64,7 @@ namespace Mahla_Blog.CoreLayer.Services.Categories
 
         List<CategoriesDto> ICategoryService.GetAllCategories()
         {
-            return _context.Categories.Select(Category => Mapper.MapperCategury(Category)).ToList();
+            return _context.Categories.Select(Category => CategoryMapper.MapperCategury(Category)).ToList();
         }
 
         CategoriesDto ICategoryService.GetCategoryBy(int id)
@@ -72,7 +72,7 @@ namespace Mahla_Blog.CoreLayer.Services.Categories
             var category = _context.Categories.FirstOrDefault(Category => Category.Id == id);
             if (category == null)
                 return null;
-            return Mapper.MapperCategury(category);
+            return CategoryMapper.MapperCategury(category);
         }
 
 
@@ -82,7 +82,7 @@ namespace Mahla_Blog.CoreLayer.Services.Categories
             var category = _context.Categories.FirstOrDefault(Category => Category.Slug == slug);
             if (category == null)
                 return null;
-            return Mapper.MapperCategury(category);
+            return CategoryMapper.MapperCategury(category);
         }
     }
 }

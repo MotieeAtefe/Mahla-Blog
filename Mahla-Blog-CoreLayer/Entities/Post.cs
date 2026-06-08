@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -31,6 +32,11 @@ namespace Mahla_Blog_DataLayer.Entities
         [ForeignKey("CategoryId")]
         public Category Categorys { get; set; }
         ICollection<PostComment> PostComments { get; set; }
+
+        public object MapperPost()
+        {
+            throw new NotImplementedException();
+        }
         #endregion
     }
 }

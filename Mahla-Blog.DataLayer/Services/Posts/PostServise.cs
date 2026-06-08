@@ -1,8 +1,8 @@
-﻿using System.Linq;
-using Mahla_Blog_DataLayer.Context;
-using Mahla_Blog.CoreLayer.DTOs.Posts;
+﻿using Mahla_Blog.CoreLayer.DTOs.Posts;
+using Mahla_Blog.CoreLayer.Mappers;
 using Mahla_Blog.CoreLayer.Utilities;
-using Mahla_Blog_DataLayer.Entities;
+using Mahla_Blog_DataLayer.Context;
+using System.Linq;
 
 namespace Mahla_Blog.CoreLayer.Services.Posts
 {
@@ -16,19 +16,10 @@ namespace Mahla_Blog.CoreLayer.Services.Posts
         }
         public OperationResult CreatePost(CreatePostDto postDto)
         {
-            var post = new Post()
-            {
-                UserId = postDto.UserId,
-                CategoryId = postDto.CategoryId,
-                Title = postDto.Title,
-                Slug = postDto.Slug,
-                Description = postDto.Description
-            };
+            var post = PostMapper.MapCreateDtoToPost(postDto);
             _context.Add(post);
             _context.SaveChanges();
             return OperationResult.Success();
-
-
         }
 
         public OperationResult EditPost(EditPostDto postDto)
@@ -36,17 +27,21 @@ namespace Mahla_Blog.CoreLayer.Services.Posts
             var post = _context.Posts.FirstOrDefault(p => p.Id == postDto.PostId);
             if (post == null)
                 return OperationResult.NotFound();
-            post.Id = postDto.PostId;
-            post.UserId = postDto.UserId;
-            post.CategoryId = postDto.CategoryId;
-            post.Title = postDto.Title;
-            post.Slug = postDto.Slug;
-            post.Description = postDto.Description;
-            post.ImageName = postDto.ImageName;
-
+            post = PostMapper.EditPost(postDto, post);
             _context.SaveChanges();
             return OperationResult.Success();
+        }
 
+        public PostDto GetPostById(int id)
+        {
+            var post = _context.Posts.FirstOrDefault(p => p.Id == id);
+            return PostMapper.MapToDto(post);
+
+        }
+
+        public bool IsSlugExists(string slug)
+        {
+            return _context.Posts.Any(p => p.Slug == slug.ToSlug());
         }
     }
 }
