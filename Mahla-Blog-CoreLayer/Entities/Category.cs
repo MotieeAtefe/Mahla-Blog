@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Mahla_Blog_DataLayer.Entities
 {
@@ -19,7 +20,12 @@ namespace Mahla_Blog_DataLayer.Entities
         public int? ParentId { get; set; }
 
         #region Relation
+        [InverseProperty("Categorys")]
         ICollection<Post> Posts { get; set; }
+        [InverseProperty("SubCategorys")]
+
+        ICollection<Post> SubPosts { get; set; }
+
         #endregion
     }
 }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -13,6 +12,7 @@ namespace Mahla_Blog_DataLayer.Entities
         public int CategoryId { get; set; }
         [Required]
         [MaxLength(300)]
+        public int? SubCategoryId { get; set; }
         public string Title { get; set; }
         [Required]
         public string Description { get; set; }
@@ -31,12 +31,12 @@ namespace Mahla_Blog_DataLayer.Entities
 
         [ForeignKey("CategoryId")]
         public Category Categorys { get; set; }
+
+        [ForeignKey("SubCategoryId")]
+        public Category SubCategorys { get; set; }
         ICollection<PostComment> PostComments { get; set; }
 
-        public object MapperPost()
-        {
-            throw new NotImplementedException();
-        }
+  
         #endregion
     }
 }
