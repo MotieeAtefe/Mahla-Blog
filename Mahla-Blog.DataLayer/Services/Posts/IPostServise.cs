@@ -9,5 +9,6 @@ namespace Mahla_Blog.CoreLayer.Services.Posts
         OperationResult EditPost(EditPostDto postDto);
         PostDto GetPostById(int id);
         bool IsSlugExists(string slug);
+        PostFilterDto GetPostByFilter(PostFilterParams param);
     }
 }

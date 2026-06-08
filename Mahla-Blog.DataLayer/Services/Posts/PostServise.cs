@@ -43,5 +43,23 @@ namespace Mahla_Blog.CoreLayer.Services.Posts
         {
             return _context.Posts.Any(p => p.Slug == slug.ToSlug());
         }
+
+        public PostFilterDto GetPostByFilter(PostFilterParams param)
+        {
+            var result = _context.Posts.OrderByDescending(d => d.CreationDate).AsQueryable();
+            if (string.IsNullOrWhiteSpace(param.CategorySlug))
+                result = result.Where(p => p.Slug == param.CategorySlug);
+            if (string.IsNullOrWhiteSpace(param.Title))
+                result = result.Where(p => p.Title.Contains(param.Title));
+            var skip = (param.PageId - 1) * param.Take;
+            var pageCount = result.Count() / param.Take;
+
+            return new PostFilterDto()
+            {
+                Posts = result.Skip(skip).Take(param.Take).Select(post => PostMapper.MapToDto(post)).ToList(),
+                FilterParams = param,
+                PageCount = pageCount
+            };
+        }
     }
 }
