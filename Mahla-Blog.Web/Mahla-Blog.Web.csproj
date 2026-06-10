@@ -27,8 +27,4 @@
     <ProjectReference Include="..\Mahla-Blog.DataLayer\Mahla-Blog.CoreLayer.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Areas\Admin\Views\Post\" />
-  </ItemGroup>
-
 </Project>

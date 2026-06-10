@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
+using Mahla_Blog.CoreLayer.Services.Posts;
 
 namespace Mahla_Blog.Web
 {
@@ -28,6 +29,7 @@ namespace Mahla_Blog.Web
             services.AddControllersWithViews();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ICategoryService, CategoryServise>();
+            services.AddTransient<IPostServise, PostServise>();
 
             services.AddDbContext<BlogContext>(options =>
             {
