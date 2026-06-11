@@ -1,6 +1,6 @@
 ﻿@model Mahla_Blog.CoreLayer.DTOs.Posts.PostFilterDto
 @{
-    ViewData["Title"] = "پست ها ";
+    ViewData["Title"] = "مقاله ها ";
     var Counter = 1;
 }
 
@@ -20,32 +20,32 @@
     <div class="box box-primary">
         <table class="table table-bordered table-hover">
             <thead>
-                <tr>
-                    <th>#</th>
-                    <th>عکس</th>
-                    <th>slug</th>
-                    <th>عنوان</th>
-                    <th>گروه</th>
-                    <th>عملیات</th>
-                </tr>
+            <tr>
+                <th>#</th>
+                <th>عکس</th>
+                <th>slug</th>
+                <th>عنوان</th>
+                <th>گروه</th>
+                <th>عملیات</th>
+            </tr>
             </thead>
             <tbody>
 
-                @foreach (var item in Model.Posts)
-                {
-                    <tr>
-                        <td>@Counter</td>
-                        <td><img src="" /></td>
-                        <td>@item.Slug</td>
-                        <td>@item.Title</td>
-                        <td>@item.Categories.Title</td>
-                        <td>
-                            <a asp-area="Admin" asp-controller="Post" asp-action="Edit" asp-route-id="@item.PostId" class="btn btn-info btn-sm">ویرایش</a>
+            @foreach (var item in Model.Posts)
+            {
+                <tr>
+                    <td>@Counter</td>
+                    <td><img src="" /></td>
+                    <td>@item.Slug</td>
+                    <td>@item.Title</td>
+                    <td>@item.Categories.Title</td>
+                    <td>
+                        <a asp-area="Admin" asp-controller="Post" asp-action="Edit" asp-route-id="@item.PostId" class="btn btn-info btn-sm">ویرایش</a>
 
-                        </td>
-                    </tr>
-                    Counter++;
-                }
+                    </td>
+                </tr>
+                Counter++;
+            }
             </tbody>
         </table>
     </div>
