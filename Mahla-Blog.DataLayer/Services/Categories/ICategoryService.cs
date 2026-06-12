@@ -9,6 +9,8 @@ namespace Mahla_Blog.CoreLayer.Services.Categories
         OperationResult CreateCategory(CreateCategoryDto command);
         OperationResult EditCategory(EditCategoryDto command);
         List<CategoriesDto> GetAllCategories();
+        List<CategoriesDto> GetChildCategories(int parentid);
+
         CategoriesDto GetCategoryBy(int id);
         CategoriesDto GetCategoryBy(string slug);
         bool IsExists(string slug);

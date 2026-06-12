@@ -77,5 +77,11 @@ namespace Mahla_Blog.Web.Areas.Admin.Controllers
 
             return RedirectToAction("index");
         }
+
+        public IActionResult GetChildCategories(int parentid)
+        {
+            var category=_categoryService.GetChildCategories(parentid);
+            return new JsonResult(category);
+        }
     }
 }

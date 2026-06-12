@@ -8,8 +8,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
+using Mahla_Blog.CoreLayer.FileManagers;
 using Mahla_Blog.CoreLayer.Services.Posts;
+using System;
 
 namespace Mahla_Blog.Web
 {
@@ -30,6 +31,7 @@ namespace Mahla_Blog.Web
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ICategoryService, CategoryServise>();
             services.AddTransient<IPostServise, PostServise>();
+            services.AddTransient<IFileManager, FileManager>();
 
             services.AddDbContext<BlogContext>(options =>
             {

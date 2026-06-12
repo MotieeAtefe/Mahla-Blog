@@ -17,6 +17,12 @@ namespace Mahla_Blog.CoreLayer.Services.Categories
             _context = context;
         }
 
+        public List<CategoriesDto> GetChildCategories(int parentid)
+        {
+            return _context.Categories.Where(c => c.Id == parentid)
+                .Select(Category => CategoryMapper.MapperCategury(Category)).ToList();
+        }
+
         public bool IsExists(string slug)
         {
             return _context.Categories.Any(s => s.Slug == slug);

@@ -1,5 +1,7 @@
 ﻿using Mahla_Blog.CoreLayer.DTOs.Posts;
 using Mahla_Blog.CoreLayer.Services.Posts;
+using Mahla_Blog.CoreLayer.Utilities;
+using Mahla_Blog.Web.Areas.Admin.Models.Posts;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Mahla_Blog.Web.Areas.Admin.Controllers
@@ -31,11 +33,24 @@ namespace Mahla_Blog.Web.Areas.Admin.Controllers
             return View();
         }
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public IActionResult Add(string t)
-        //{
-        //    return View();
-        //}
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Add(CreatePostViewModel postViewModel)
+        {
+            if (!ModelState.IsValid)
+                return View();
+            var result = _postServise.CreatePost(new CreatePostDto()
+            {
+                CategoryId = postViewModel.CategoryId,
+                Description = postViewModel.Description,
+                ImageFile = postViewModel.ImageFile,
+                Slug = postViewModel.Slug,
+                SubCategoryId = postViewModel.SubCategoryId,
+                UserId = User.GetUserId()
+            });
+            if (result.Status != OperationResultStatus.Success)
+                return View();
+            return View();
+        }
     }
 }
