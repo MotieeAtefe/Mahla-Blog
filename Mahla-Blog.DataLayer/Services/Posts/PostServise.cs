@@ -2,6 +2,7 @@
 using Mahla_Blog.CoreLayer.Mappers;
 using Mahla_Blog.CoreLayer.Utilities;
 using Mahla_Blog_DataLayer.Context;
+using Mahla_Blog.CoreLayer.FileManagers;
 using System.Linq;
 
 namespace Mahla_Blog.CoreLayer.Services.Posts
@@ -9,15 +10,19 @@ namespace Mahla_Blog.CoreLayer.Services.Posts
     public class PostServise : IPostServise
     {
         private readonly BlogContext _context;
-
-        public PostServise(BlogContext context)
+        private readonly IFileManager _fileManagers;
+        public PostServise(BlogContext context, IFileManager fileManager)
         {
             _context = context;
+            _fileManagers = fileManager;
         }
         public OperationResult CreatePost(CreatePostDto postDto)
         {
+            if (postDto.ImageFile == null)
+                return OperationResult.Error();
             var post = PostMapper.MapCreateDtoToPost(postDto);
             _context.Add(post);
+            post.ImageName = _fileManagers.SaveFile(postDto.ImageFile, Directories.PostImage);
             _context.SaveChanges();
             return OperationResult.Success();
         }
@@ -62,4 +67,6 @@ namespace Mahla_Blog.CoreLayer.Services.Posts
             };
         }
     }
+
+
 }
