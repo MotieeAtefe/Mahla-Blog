@@ -39,6 +39,7 @@ namespace Mahla_Blog.Web.Areas.Admin.Controllers
         {
             if (!ModelState.IsValid)
                 return View();
+
             var result = _postServise.CreatePost(new CreatePostDto()
             {
                 CategoryId = postViewModel.CategoryId,
@@ -50,7 +51,7 @@ namespace Mahla_Blog.Web.Areas.Admin.Controllers
             });
             if (result.Status != OperationResultStatus.Success)
                 return View();
-            return View();
+            return RedirectToAction("Index");
         }
     }
 }

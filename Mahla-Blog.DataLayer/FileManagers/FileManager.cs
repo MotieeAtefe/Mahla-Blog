@@ -20,7 +20,7 @@ namespace Mahla_Blog.CoreLayer.FileManagers
                 Directory.CreateDirectory(filePath);
             }
 
-            var fullPath = Path.Combine(fileName + filePath);
+            var fullPath = Path.Combine(filePath,fileName);
 
             using var stream = new FileStream(fullPath, FileMode.Create);
             file.CopyTo(stream);

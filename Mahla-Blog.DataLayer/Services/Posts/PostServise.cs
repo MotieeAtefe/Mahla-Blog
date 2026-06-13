@@ -4,6 +4,7 @@ using Mahla_Blog.CoreLayer.Utilities;
 using Mahla_Blog_DataLayer.Context;
 using Mahla_Blog.CoreLayer.FileManagers;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace Mahla_Blog.CoreLayer.Services.Posts
 {
@@ -51,7 +52,10 @@ namespace Mahla_Blog.CoreLayer.Services.Posts
 
         public PostFilterDto GetPostByFilter(PostFilterParams param)
         {
-            var result = _context.Posts.OrderByDescending(d => d.CreationDate).AsQueryable();
+            var result = _context.Posts
+                .Include(d=>d.Categorys)
+                .Include(d=>d.SubCategorys)
+                .OrderByDescending(d => d.CreationDate).AsQueryable();
             if (!string.IsNullOrWhiteSpace(param.CategorySlug))
                 result = result.Where(p => p.Slug == param.CategorySlug);
             if (!string.IsNullOrWhiteSpace(param.Title))

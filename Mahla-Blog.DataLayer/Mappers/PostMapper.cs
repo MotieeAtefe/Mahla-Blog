@@ -1,5 +1,6 @@
-﻿using Mahla_Blog_DataLayer.Entities;
-using Mahla_Blog.CoreLayer.DTOs.Posts;
+﻿using Mahla_Blog.CoreLayer.DTOs.Posts;
+using Mahla_Blog.CoreLayer.Utilities;
+using Mahla_Blog_DataLayer.Entities;
 
 namespace Mahla_Blog.CoreLayer.Mappers
 {
@@ -11,11 +12,13 @@ namespace Mahla_Blog.CoreLayer.Mappers
             {
                 CategoryId = postDto.CategoryId,
                 Description = postDto.Description,
-                Slug = postDto.Slug,
+                Slug = postDto.Slug.ToSlug(),
                 Title = postDto.Title,
                 IsDeleted = false,
                 Visit = 0,
-                UserId = postDto.UserId
+                UserId = postDto.UserId,
+                SubCategoryId = postDto.SubCategoryId,
+
             };
         }
 

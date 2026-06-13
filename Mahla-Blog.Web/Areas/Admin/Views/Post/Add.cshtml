@@ -18,7 +18,7 @@
     </ol>
 </section>
 <section>
-    <form class="box box-danger" method="post" asp-area="admin" asp-controller="Post" asp-action="Add">
+    <form class="box box-danger" method="post" asp-area="admin" asp-controller="Post" asp-action="Add" enctype="multipart/form-data">
         <div class="box-body row">
             <div class="col-md-6">
                 @Html.EditorFor(m => m.Title)
@@ -33,6 +33,7 @@
                 <div class="form-group">
                     <label asp-for="CategoryId"></label>
                     <select asp-for="CategoryId" class="form-control">
+                        <option value="null">انتخاب نشده</option>
                         @foreach (var item in categorie.Where(p => p.ParentId == null))
                         {
                             <option value="@item.Id">@item.Title</option>
@@ -64,11 +65,19 @@
         $("#CategoryId").change(function () {
             var categoryId = $(this).val();
             $.ajax({
-                url:"Admin/Category/GetChildCategories?parentid=" + categoryId,
+                url:"/admin/category/GetChildCategories?parentid=" + categoryId,
                 type:"get"
 
             }).done(function(data)
             {
+               $("#SubCategoryId").html(`<option value='null'>انتخاب نشده</option>`)
+
+                for(var i in data)
+                {
+                    var category= data[i];
+                    $("#SubCategoryId").append(`<option value='${category.id}'>${category.title}</option>`)
+
+                }
                 console.log(data);
             });
 
