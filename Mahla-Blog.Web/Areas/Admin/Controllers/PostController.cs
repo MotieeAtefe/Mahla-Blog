@@ -53,5 +53,33 @@ namespace Mahla_Blog.Web.Areas.Admin.Controllers
                 return View();
             return RedirectToAction("Index");
         }
+
+        public IActionResult Edit(int id)
+        {
+            var post = _postServise.GetPostById(id);
+            if (post == null)
+                return 
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(EditPostViewModel editpost)
+        {
+            if (!ModelState.IsValid)
+                return View();
+
+            var result = _postServise.EditPost(new EditPostDto()
+            {
+                CategoryId = editpost.CategoryId,
+                Description = editpost.Description,
+                Slug = editpost.Slug,
+                Title = editpost.Title,
+                ImageFile = editpost.ImageFile
+            });
+            if (result.Status != OperationResultStatus.Success)
+                return View();
+            return RedirectToAction("Index");
+        }
     }
 }
