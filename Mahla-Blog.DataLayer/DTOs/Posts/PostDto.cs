@@ -15,5 +15,7 @@ namespace Mahla_Blog.CoreLayer.DTOs.Posts
         public string ImageName { get; set; }
         public DateTime CreationDate { get; set; } = DateTime.Now;
         public CategoriesDto Categories { get; set; }
+        public CategoriesDto SubCategories { get; set; }
+        public int? SubCategoryId { get; set; }
     }
 }

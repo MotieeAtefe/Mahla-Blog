@@ -26,8 +26,9 @@ namespace Mahla_Blog.CoreLayer.Mappers
         {
             post.CategoryId = postDto.CategoryId;
             post.Description = postDto.Description;
-            post.Slug = postDto.Slug;
+            post.Slug = postDto.Slug.ToSlug();
             post.Title = postDto.Title;
+            post.SubCategoryId = postDto.SubCategoryId;
             return post;
         }
 
@@ -44,8 +45,9 @@ namespace Mahla_Blog.CoreLayer.Mappers
                 CreationDate = post.CreationDate,
                 Categories = CategoryMapper.MapperCategury(post.Categorys),
                 PostId = post.Id,
-                ImageName = post.ImageName
-                    
+                ImageName = post.ImageName,
+                SubCategoryId = post.SubCategoryId,
+                SubCategories = post.SubCategoryId == 0 ? CategoryMapper.MapperCategury(post.SubCategorys) : null
             };
         }
     }

@@ -22,8 +22,12 @@ namespace Mahla_Blog.CoreLayer.Services.Posts
             if (postDto.ImageFile == null)
                 return OperationResult.Error();
             var post = PostMapper.MapCreateDtoToPost(postDto);
+           
+            if (IsSlugExists(post.Slug))
+                return OperationResult.Error("Slug تکراری است");
+
             _context.Add(post);
-            post.ImageName = _fileManagers.SaveFile(postDto.ImageFile, Directories.PostImage);
+            post.ImageName = _fileManagers.SaveFileAndReturnName(postDto.ImageFile, Directories.PostImage);
             _context.SaveChanges();
             return OperationResult.Success();
         }
@@ -31,16 +35,27 @@ namespace Mahla_Blog.CoreLayer.Services.Posts
         public OperationResult EditPost(EditPostDto postDto)
         {
             var post = _context.Posts.FirstOrDefault(p => p.Id == postDto.PostId);
+
             if (post == null)
                 return OperationResult.NotFound();
             post = PostMapper.EditPost(postDto, post);
+            var newSlug = postDto.Slug;
+            if (post.Slug != newSlug)
+                if (IsSlugExists(newSlug))
+                    return OperationResult.Error("Slug تکراری است");
+     
+            if (postDto.ImageFile != null)
+                _fileManagers.SaveFileAndReturnName(postDto.ImageFile, Directories.PostImage);
             _context.SaveChanges();
             return OperationResult.Success();
         }
 
         public PostDto GetPostById(int id)
         {
-            var post = _context.Posts.FirstOrDefault(p => p.Id == id);
+            var post = _context.Posts
+                        .Include(c => c.SubCategorys)
+                        .Include(c => c.Categorys)
+                        .FirstOrDefault(p => p.Id == id);
             return PostMapper.MapToDto(post);
 
         }
@@ -53,8 +68,8 @@ namespace Mahla_Blog.CoreLayer.Services.Posts
         public PostFilterDto GetPostByFilter(PostFilterParams param)
         {
             var result = _context.Posts
-                .Include(d=>d.Categorys)
-                .Include(d=>d.SubCategorys)
+                .Include(d => d.Categorys)
+                .Include(d => d.SubCategorys)
                 .OrderByDescending(d => d.CreationDate).AsQueryable();
             if (!string.IsNullOrWhiteSpace(param.CategorySlug))
                 result = result.Where(p => p.Slug == param.CategorySlug);

@@ -6,7 +6,7 @@ namespace Mahla_Blog.CoreLayer.FileManagers
 {
     public class FileManager : IFileManager
     {
-        public string SaveFile(IFormFile file, string savePath)
+        public string SaveFileAndReturnName(IFormFile file, string savePath)
         {
             if (file == null)
                 throw new Exception("File Is Null!");

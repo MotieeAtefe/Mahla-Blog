@@ -10,7 +10,8 @@ namespace Mahla_Blog.CoreLayer.DTOs.Posts
         public string Title { get; set; }
         public string Description { get; set; }
         public string Slug { get; set; }
-        public int SubCategories { get; set; }
+        public int? SubCategories { get; set; }
+        public int? SubCategoryId { get; set; }
         public IFormFile ImageFile { get; set; }
     }
 }

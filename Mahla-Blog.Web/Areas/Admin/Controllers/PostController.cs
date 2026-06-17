@@ -38,10 +38,11 @@ namespace Mahla_Blog.Web.Areas.Admin.Controllers
         public IActionResult Add(CreatePostViewModel postViewModel)
         {
             if (!ModelState.IsValid)
-                return View();
+                return View(postViewModel);
 
             var result = _postServise.CreatePost(new CreatePostDto()
             {
+                Title = postViewModel.Title,
                 CategoryId = postViewModel.CategoryId,
                 Description = postViewModel.Description,
                 ImageFile = postViewModel.ImageFile,
@@ -50,7 +51,10 @@ namespace Mahla_Blog.Web.Areas.Admin.Controllers
                 UserId = User.GetUserId()
             });
             if (result.Status != OperationResultStatus.Success)
-                return View();
+            {
+                ModelState.AddModelError(nameof(CreatePostViewModel.Slug), result.Message);
+                return View(postViewModel);
+            }
             return RedirectToAction("Index");
         }
 
@@ -58,13 +62,22 @@ namespace Mahla_Blog.Web.Areas.Admin.Controllers
         {
             var post = _postServise.GetPostById(id);
             if (post == null)
-                return 
-            return View();
+                return RedirectToAction("Index");
+            var model = new EditPostViewModel()
+            {
+                CategoryId = post.CategoryId,
+                Description = post.Description,
+                Slug = post.Slug,
+                SubCategoryId = post.SubCategoryId,
+                Title = post.Title
+
+            };
+            return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(EditPostViewModel editpost)
+        public IActionResult Edit(int id,EditPostViewModel editpost)
         {
             if (!ModelState.IsValid)
                 return View();
@@ -75,10 +88,16 @@ namespace Mahla_Blog.Web.Areas.Admin.Controllers
                 Description = editpost.Description,
                 Slug = editpost.Slug,
                 Title = editpost.Title,
-                ImageFile = editpost.ImageFile
+                ImageFile = editpost.ImageFile,
+                PostId = id,
+                SubCategoryId = editpost.SubCategoryId == 0 ? null : editpost.SubCategoryId,
             });
+
             if (result.Status != OperationResultStatus.Success)
-                return View();
+            {
+                ModelState.AddModelError(nameof(EditPostViewModel.Slug), result.Message);
+                return View(editpost);
+            }
             return RedirectToAction("Index");
         }
     }
