@@ -47,7 +47,7 @@ namespace Mahla_Blog.Web.Areas.Admin.Controllers
                 Description = postViewModel.Description,
                 ImageFile = postViewModel.ImageFile,
                 Slug = postViewModel.Slug,
-                SubCategoryId = postViewModel.SubCategoryId,
+                SubCategoryId = postViewModel.SubCategoryId == 0 ? null : postViewModel.SubCategoryId,
                 UserId = User.GetUserId()
             });
             if (result.Status != OperationResultStatus.Success)
@@ -68,7 +68,7 @@ namespace Mahla_Blog.Web.Areas.Admin.Controllers
                 CategoryId = post.CategoryId,
                 Description = post.Description,
                 Slug = post.Slug,
-                SubCategoryId = post.SubCategoryId,
+                SubCategoryId = post.SubCategoryId == 0 ? null : post.SubCategoryId,
                 Title = post.Title
 
             };
@@ -80,7 +80,7 @@ namespace Mahla_Blog.Web.Areas.Admin.Controllers
         public IActionResult Edit(int id,EditPostViewModel editpost)
         {
             if (!ModelState.IsValid)
-                return View();
+                return View(editpost);
 
             var result = _postServise.EditPost(new EditPostDto()
             {
