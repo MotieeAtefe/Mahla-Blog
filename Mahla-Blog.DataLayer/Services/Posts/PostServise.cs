@@ -1,10 +1,11 @@
 ﻿using Mahla_Blog.CoreLayer.DTOs.Posts;
+using Mahla_Blog.CoreLayer.FileManagers;
 using Mahla_Blog.CoreLayer.Mappers;
 using Mahla_Blog.CoreLayer.Utilities;
 using Mahla_Blog_DataLayer.Context;
-using Mahla_Blog.CoreLayer.FileManagers;
-using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Linq;
 
 namespace Mahla_Blog.CoreLayer.Services.Posts
 {
@@ -26,8 +27,10 @@ namespace Mahla_Blog.CoreLayer.Services.Posts
             if (IsSlugExists(post.Slug))
                 return OperationResult.Error("Slug تکراری است");
 
-            _context.Add(post);
             post.ImageName = _fileManagers.SaveFileAndReturnName(postDto.ImageFile, Directories.PostImage);
+            Console.WriteLine($"UserId being inserted: {post.UserId}");
+            _context.Add(post);
+
             _context.SaveChanges();
             return OperationResult.Success();
         }
@@ -72,11 +75,11 @@ namespace Mahla_Blog.CoreLayer.Services.Posts
                 .Include(d => d.SubCategorys)
                 .OrderByDescending(d => d.CreationDate).AsQueryable();
             if (!string.IsNullOrWhiteSpace(param.CategorySlug))
-                result = result.Where(p => p.Slug == param.CategorySlug);
+                result = result.Where(p => p.Categorys.Slug == param.CategorySlug);
             if (!string.IsNullOrWhiteSpace(param.Title))
                 result = result.Where(p => p.Title.Contains(param.Title));
             var skip = (param.PageId - 1) * param.Take;
-            var pageCount = result.Count() / param.Take;
+            var pageCount = (int)Math.Ceiling((double)result.Count() / param.Take);
 
             return new PostFilterDto()
             {
