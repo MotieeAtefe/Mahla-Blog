@@ -6,7 +6,7 @@ namespace Mahla_Blog.CoreLayer.DTOs.Posts
     public class PostDto
     {
         public int PostId { get; set; }
-        public int UserId { get; set; }
+        public string UserFullName { get; set; }
         public int CategoryId { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }

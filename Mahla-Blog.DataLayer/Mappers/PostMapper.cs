@@ -41,7 +41,7 @@ namespace Mahla_Blog.CoreLayer.Mappers
                 Slug = post.Slug,
                 Title = post.Title,
                 Visit = post.Visit,
-                UserId = post.UserId,
+                UserFullName = post.User?.FullName,
                 CreationDate = post.CreationDate,
                 Categories = CategoryMapper.MapperCategury(post.Categorys),
                 PostId = post.Id,
