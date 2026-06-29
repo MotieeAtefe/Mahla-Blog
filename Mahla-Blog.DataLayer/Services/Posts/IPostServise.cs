@@ -8,6 +8,8 @@ namespace Mahla_Blog.CoreLayer.Services.Posts
         OperationResult CreatePost(CreatePostDto postDto);
         OperationResult EditPost(EditPostDto postDto);
         PostDto GetPostById(int id);
+        PostDto GetPostBySlug(string slug);
+
         bool IsSlugExists(string slug);
         PostFilterDto GetPostByFilter(PostFilterParams param);
     }

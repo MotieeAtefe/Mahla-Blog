@@ -59,6 +59,8 @@ namespace Mahla_Blog.CoreLayer.Services.Posts
                         .Include(c => c.SubCategorys)
                         .Include(c => c.Categorys)
                         .FirstOrDefault(p => p.Id == id);
+            if (post == null)
+                return null;
             return PostMapper.MapToDto(post);
 
         }
@@ -87,6 +89,16 @@ namespace Mahla_Blog.CoreLayer.Services.Posts
                 FilterParams = param,
                 PageCount = pageCount
             };
+        }
+
+        public PostDto GetPostBySlug(string slug)
+        {
+            var post = _context.Posts
+                .Include(c => c.SubCategorys)
+                .Include(c => c.Categorys)
+                .Include(c=>c.User)
+                .FirstOrDefault(p => p.Slug == slug);
+            return PostMapper.MapToDto(post);
         }
     }
 
