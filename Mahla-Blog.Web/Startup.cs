@@ -1,4 +1,7 @@
+using Mahla_Blog.CoreLayer.FileManagers;
 using Mahla_Blog.CoreLayer.Services.Categories;
+using Mahla_Blog.CoreLayer.Services.Comments;
+using Mahla_Blog.CoreLayer.Services.Posts;
 using Mahla_Blog.CoreLayer.Services.Users;
 using Mahla_Blog_DataLayer.Context;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -8,9 +11,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Mahla_Blog.CoreLayer.FileManagers;
-using Mahla_Blog.CoreLayer.Services.Posts;
 using System;
+using System.Windows.Input;
 
 namespace Mahla_Blog.Web
 {
@@ -32,6 +34,7 @@ namespace Mahla_Blog.Web
             services.AddScoped<ICategoryService, CategoryServise>();
             services.AddTransient<IPostServise, PostServise>();
             services.AddTransient<IFileManager, FileManager>();
+            services.AddTransient<ICommentService, CommentService>();
 
             services.AddDbContext<BlogContext>(options =>
             {
